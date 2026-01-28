@@ -1,11 +1,7 @@
-// lib/zoho-auth.ts
-// Zoho OAuth token management
-
 let cachedToken: string | null = null;
 let tokenExpiry: number = 0;
 
 export async function getZohoAccessToken(): Promise<string> {
-  // Return cached token if still valid (with 5 min buffer)
   if (cachedToken && Date.now() < tokenExpiry - 300000) {
     return cachedToken;
   }
@@ -31,5 +27,5 @@ export async function getZohoAccessToken(): Promise<string> {
   cachedToken = data.access_token;
   tokenExpiry = Date.now() + (data.expires_in * 1000);
 
-  return cachedToken;
+  return cachedToken as string;
 }
