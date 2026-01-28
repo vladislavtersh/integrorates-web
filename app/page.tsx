@@ -1,26 +1,4 @@
-const MOCK_RATES = [
-  {
-    currency: "USD",
-    rate: 1.0843,
-    base: "EUR",
-    source: "ECB",
-    date: "2026-01-27",
-  },
-  {
-    currency: "GBP",
-    rate: 0.8531,
-    base: "EUR",
-    source: "ECB",
-    date: "2026-01-27",
-  },
-  {
-    currency: "CHF",
-    rate: 0.9412,
-    base: "EUR",
-    source: "ECB",
-    date: "2026-01-27",
-  },
-];
+import { MOCK_RATES } from "@/lib/rates";
 
 export default function Home() {
   return (
