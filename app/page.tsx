@@ -1,6 +1,9 @@
-import { MOCK_RATES } from "@/lib/rates";
+import { MockRatesProvider } from "@/lib/providers/mock.provider";
 
-export default function Home() {
+export default async function Home() {
+  const provider = new MockRatesProvider();
+  const rates = await provider.getRates();
+
   return (
     <main className="min-h-screen bg-white text-black">
       <header className="border-b border-zinc-200 px-8 py-4">
@@ -27,7 +30,7 @@ export default function Home() {
               </tr>
             </thead>
             <tbody>
-              {MOCK_RATES.map((r) => (
+              {rates.map((r) => (
                 <tr
                   key={r.currency}
                   className="border-t border-zinc-200"
