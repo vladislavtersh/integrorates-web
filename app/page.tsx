@@ -1,7 +1,7 @@
-import { MockRatesProvider } from "@/lib/providers/mock.provider";
+import { ECBRatesProvider } from "@/lib/providers/ecb.provider";
 
 export default async function Home() {
-  const provider = new MockRatesProvider();
+  const provider = new ECBRatesProvider();
   const rates = await provider.getRates();
 
   return (
