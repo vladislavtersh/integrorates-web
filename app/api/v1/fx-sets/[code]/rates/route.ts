@@ -1,6 +1,4 @@
-// app/api/v1/fx-sets/[code]/rates/route.ts
-// API Proxy endpoint
-
+cat > /Users/vladislavtersh/integrorates-web/app/api/v1/fx-sets/\[code\]/rates/route.ts << 'EOF'
 import { NextRequest, NextResponse } from 'next/server';
 import { fetchPublishedRates, ZCErrorResponse } from '@/lib/providers/zc.provider';
 import { createHash } from 'crypto';
@@ -14,7 +12,6 @@ export async function GET(
   const date = searchParams.get('date');
   const symbols = searchParams.get('symbols') || undefined;
 
-  // Validate required params
   if (!date) {
     return NextResponse.json(
       { error: 'MISSING_DATE', message: 'date parameter is required (YYYY-MM-DD)' },
@@ -22,7 +19,6 @@ export async function GET(
     );
   }
 
-  // Validate date format
   if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) {
     return NextResponse.json(
       { error: 'INVALID_DATE', message: 'date must be in YYYY-MM-DD format' },
@@ -33,7 +29,6 @@ export async function GET(
   try {
     const result = await fetchPublishedRates(code, date, symbols);
 
-    // Check if error response
     if ('error' in result && (result as ZCErrorResponse).error) {
       const errorResult = result as ZCErrorResponse;
       return NextResponse.json(
@@ -42,7 +37,6 @@ export async function GET(
       );
     }
 
-    // Success - add proxy-level integrity hash
     const payload = {
       fx_set: result.fx_set,
       fx_set_version: result.fx_set_version,
@@ -79,24 +73,4 @@ export async function GET(
     );
   }
 }
-```
-
----
-
-## СТРУКТУРА ФАЙЛОВ
-```
-integrorates-web/
-├── lib/
-│   ├── zoho-auth.ts          ← NEW
-│   └── providers/
-│       ├── provider.ts       (existing)
-│       ├── ecb.provider.ts   (existing)
-│       └── zc.provider.ts    ← NEW
-├── app/
-│   ├── page.tsx              (existing)
-│   └── api/
-│       └── v1/
-│           └── fx-sets/
-│               └── [code]/
-│                   └── rates/
-│                       └── route.ts  ← NEW
+EOF
