@@ -1,4 +1,3 @@
-cat > /Users/vladislavtersh/integrorates-web/app/api/v1/fx-sets/\[code\]/rates/route.ts << 'EOF'
 import { NextRequest, NextResponse } from 'next/server';
 import { fetchPublishedRates, ZCErrorResponse } from '@/lib/providers/zc.provider';
 import { createHash } from 'crypto';
@@ -73,4 +72,3 @@ export async function GET(
     );
   }
 }
-EOF
