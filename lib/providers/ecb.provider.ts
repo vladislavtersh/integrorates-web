@@ -1,19 +1,13 @@
 import { RatesProvider } from "./provider";
+import { ExchangeRate } from "@/lib/rates";
 
-type ECBRate = {
-  currency: string;
-  rate: number;
-  base: "EUR";
-  source: "ECB";
-  date: string;
-};
-
-export class ECBRatesProvider implements RatesProvider<ECBRate> {
-  async getRates(): Promise<ECBRate[]> {
+export class ECBRatesProvider implements RatesProvider<ExchangeRate> {
+  async getRates(): Promise<ExchangeRate[]> {
     const res = await fetch(
       "https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml",
       {
-        next: { revalidate: 3600 }, // ISR: обновление раз в час
+        // серверный компонент → контроль кэша здесь
+        cache: "no-store",
       }
     );
 
@@ -23,12 +17,14 @@ export class ECBRatesProvider implements RatesProvider<ECBRate> {
 
     const xml = await res.text();
 
+    // дата публикации ECB
     const dateMatch = xml.match(/time=['"]([^'"]+)['"]/);
     const date = dateMatch?.[1] ?? "unknown";
 
+    // курсы валют
     const rateMatches = [
       ...xml.matchAll(
-        /currency=['"]([A-Z]{3})['"] rate=['"]([\d.]+)['"]/g
+        /currency=['"]([A-Z]{3})['"]\s+rate=['"]([\d.]+)['"]/g
       ),
     ];
 
