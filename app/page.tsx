@@ -2,7 +2,10 @@ import { ECBRatesProvider } from "@/lib/providers/ecb.provider";
 
 export default async function Home() {
   const provider = new ECBRatesProvider();
-  const rates = await provider.getRates();
+
+  const rates = (await provider.getRates()).sort((a, b) =>
+    a.currency.localeCompare(b.currency)
+  );
 
   return (
     <main className="min-h-screen bg-white text-black">
