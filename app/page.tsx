@@ -1,72 +1,76 @@
+const MOCK_RATES = [
+  {
+    currency: "USD",
+    rate: 1.0843,
+    base: "EUR",
+    source: "ECB",
+    date: "2026-01-27",
+  },
+  {
+    currency: "GBP",
+    rate: 0.8531,
+    base: "EUR",
+    source: "ECB",
+    date: "2026-01-27",
+  },
+  {
+    currency: "CHF",
+    rate: 0.9412,
+    base: "EUR",
+    source: "ECB",
+    date: "2026-01-27",
+  },
+];
+
 export default function Home() {
   return (
-    <main className="mx-auto max-w-6xl px-6 py-10 space-y-12">
-      
-      {/* 1. HERO / INTRO */}
-      <section className="space-y-2">
-        <h1 className="text-2xl font-semibold">
+    <main className="min-h-screen bg-white text-black">
+      <header className="border-b border-zinc-200 px-8 py-4">
+        <div className="text-sm font-semibold tracking-wide">
+          INTEGRORATES
+        </div>
+      </header>
+
+      <section className="px-8 py-12">
+        <h1 className="text-4xl font-bold tracking-tight">
           INTEGRORATES
         </h1>
-        <p className="text-sm text-zinc-500">
-          Official exchange rates for accounting & compliance.
-          Multiple central banks. One canonical view.
-        </p>
-      </section>
+        <p className="mt-2 text-zinc-600">rates.integro.tech</p>
 
-      {/* 2. RATES TABLE */}
-      <section>
-        <h2 className="mb-4 text-lg font-medium">
-          Exchange Rates
-        </h2>
-
-        <div className="overflow-x-auto rounded-lg border border-zinc-200 dark:border-zinc-800">
-          <table className="w-full text-sm">
-            <thead className="bg-zinc-100 dark:bg-zinc-900">
-              <tr>
-                <th className="px-4 py-2 text-left">Currency</th>
-                <th className="px-4 py-2 text-left">Rate</th>
-                <th className="px-4 py-2 text-left">Base</th>
-                <th className="px-4 py-2 text-left">Source</th>
-                <th className="px-4 py-2 text-left">Date</th>
+        <div className="mt-10 overflow-x-auto">
+          <table className="w-full border-collapse text-sm">
+            <thead>
+              <tr className="border-b border-zinc-300 text-left">
+                <th className="px-4 py-2 font-medium">Currency</th>
+                <th className="px-4 py-2 font-medium">Rate</th>
+                <th className="px-4 py-2 font-medium">Base</th>
+                <th className="px-4 py-2 font-medium">Source</th>
+                <th className="px-4 py-2 font-medium">Date</th>
               </tr>
             </thead>
             <tbody>
-              <tr className="border-t border-zinc-200 dark:border-zinc-800">
-                <td className="px-4 py-2">—</td>
-                <td className="px-4 py-2">—</td>
-                <td className="px-4 py-2">—</td>
-                <td className="px-4 py-2">—</td>
-                <td className="px-4 py-2">—</td>
-              </tr>
+              {MOCK_RATES.map((r) => (
+                <tr
+                  key={r.currency}
+                  className="border-t border-zinc-200"
+                >
+                  <td className="px-4 py-2 font-medium">
+                    {r.currency}
+                  </td>
+                  <td className="px-4 py-2">{r.rate}</td>
+                  <td className="px-4 py-2">{r.base}</td>
+                  <td className="px-4 py-2">{r.source}</td>
+                  <td className="px-4 py-2">{r.date}</td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>
       </section>
 
-      {/* 3. SOURCE STATUS */}
-      <section>
-        <h2 className="mb-3 text-lg font-medium">
-          Data Sources
-        </h2>
-
-        <ul className="space-y-1 text-sm text-zinc-600 dark:text-zinc-400">
-          <li>ECB — status: unknown</li>
-          <li>CBR — status: unknown</li>
-          <li>CBUAE — status: unknown</li>
-        </ul>
-      </section>
-
-      {/* 4. DISCLAIMER */}
-      <section className="pt-8 border-t border-zinc-200 dark:border-zinc-800 text-xs text-zinc-500">
-        <p>
-          Rates provided for informational and accounting purposes only.
-          Not financial advice.
-        </p>
-        <p className="mt-1">
-          © Integro Nexus Creative Studio
-        </p>
-      </section>
-
+      <footer className="border-t border-zinc-200 px-8 py-4 text-sm text-zinc-500">
+        © Integro Nexus Creative Studio
+      </footer>
     </main>
   );
 }
