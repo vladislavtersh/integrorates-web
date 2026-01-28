@@ -30,7 +30,7 @@ export async function fetchPublishedRates(
   const app = process.env.ZOHO_APP;
   const apiDomain = process.env.ZOHO_API_DOMAIN;
 
-  const url = `${apiDomain}/creator/custom/${owner}/${app}/API_GetPublishedRates`;
+  const url = `${apiDomain}/creator/v2.1/${owner}/${app}/function/API_GetPublishedRates`;
 
   const response = await fetch(url, {
     method: 'POST',
