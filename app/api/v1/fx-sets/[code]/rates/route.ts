@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { fetchPublishedRates, ZCErrorResponse } from '@/lib/providers/zc.provider';
+import { fetchPublishedRates, ZCRatesResponse, ZCErrorResponse } from '@/lib/providers/zc.provider';
 import { createHash } from 'crypto';
 
 export async function GET(
@@ -28,7 +28,7 @@ export async function GET(
   try {
     const result = await fetchPublishedRates(code, date, symbols);
 
-    if ('error' in result && (result as ZCErrorResponse).error) {
+    if ('error' in result) {
       const errorResult = result as ZCErrorResponse;
       return NextResponse.json(
         { error: errorResult.error, message: errorResult.message },
@@ -36,22 +36,24 @@ export async function GET(
       );
     }
 
+    const successResult = result as ZCRatesResponse;
+
     const payload = {
-      fx_set: result.fx_set,
-      fx_set_version: result.fx_set_version,
-      date: result.date,
-      base: result.base,
-      rates: result.rates,
-      source: result.source,
-      generated_at: result.generated_at,
+      fx_set: successResult.fx_set,
+      fx_set_version: successResult.fx_set_version,
+      date: successResult.date,
+      base: successResult.base,
+      rates: successResult.rates,
+      source: successResult.source,
+      generated_at: successResult.generated_at,
     };
 
     const payloadJson = JSON.stringify(payload);
     const proxyHash = createHash('sha256').update(payloadJson).digest('hex');
 
     const response = {
-      ...result,
-      integrity_upstream: result.integrity,
+      ...successResult,
+      integrity_upstream: successResult.integrity,
       integrity: {
         method: 'proxy-sha256',
         hash: `sha256:${proxyHash}`,
