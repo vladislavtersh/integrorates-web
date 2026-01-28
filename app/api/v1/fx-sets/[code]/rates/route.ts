@@ -4,9 +4,9 @@ import { createHash } from 'crypto';
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { code: string } }
+  { params }: { params: Promise<{ code: string }> }
 ) {
-  const { code } = params;
+  const { code } = await params;
   const searchParams = request.nextUrl.searchParams;
   const date = searchParams.get('date');
   const symbols = searchParams.get('symbols') || undefined;
